@@ -1,0 +1,216 @@
+business_analysis_task:
+  guardrail_max_retries: 0
+  description: >
+    Analyze the following incoming request:
+
+    {request}
+
+    The Analytics Team Lead must delegate business analysis
+    to the Senior Business Analyst.
+
+    BUSINESS ANALYSIS SCOPE:
+
+    1. Identify business objectives and expected outcomes.
+    2. Identify stakeholders and system actors.
+    3. Define the scope and boundaries of the requested feature.
+    4. Identify business requirements.
+    5. Define functional requirements.
+    6. Document User Stories and Use Cases.
+    7. Define business rules and validation requirements.
+    8. Describe primary, alternative, and exception scenarios.
+    9. Define testable Acceptance Criteria.
+    10. Identify assumptions, dependencies, and open questions.
+
+    The Team Lead must review the Business Analyst's work
+    and request corrections if requirements are incomplete,
+    ambiguous, inconsistent, or not testable.
+
+    Do not invent missing business information.
+
+  expected_output: >
+    A reviewed Business Requirements document containing:
+
+    - Business objectives and problem statement
+    - Scope and exclusions
+    - Stakeholders and actors
+    - Numbered business requirements
+    - Numbered functional requirements
+    - User Stories and Use Cases
+    - Business rules and validations
+    - Acceptance Criteria
+    - Assumptions and dependencies
+    - Open questions
+
+  markdown: true
+
+system_analysis_task:
+  guardrail_max_retries: 0
+  description: >
+    Perform technical and system analysis for the request:
+
+    {request}
+
+    Use the results of business_analysis_task as context.
+
+    The Analytics Team Lead must delegate the technical
+    analysis to the Senior System Analyst.
+
+    SYSTEM ANALYSIS SCOPE:
+
+    1. Analyze the approved business requirements.
+    2. Define system responsibilities and boundaries.
+    3. Describe component interactions.
+    4. Define detailed system requirements.
+    5. Specify system behavior and processing logic.
+    6. Define API endpoints where applicable.
+    7. Specify request and response data structures.
+    8. Define data models and entities.
+    9. Describe integration and event flows.
+    10. Define validation and error-handling behavior.
+    11. Identify non-functional requirements.
+    12. Describe security and authorization requirements.
+    13. Document alternative and exceptional scenarios.
+    14. Identify technical dependencies and constraints.
+
+    Do not invent existing system architecture,
+    API contracts, or infrastructure.
+
+    Mark unconfirmed technical decisions as proposals.
+
+    The Team Lead must verify that the system design
+    satisfies the business requirements.
+
+  expected_output: >
+    A reviewed System Analysis document containing:
+
+    - System overview and boundaries
+    - Numbered system requirements
+    - Component interactions
+    - API specifications where applicable
+    - Data models and validation rules
+    - Integration flows
+    - Processing logic
+    - Error-handling scenarios
+    - Security requirements
+    - Non-functional requirements
+    - Technical assumptions and open questions
+
+  markdown: true
+
+technical_specification_task:
+  guardrail_max_retries: 0
+  description: >
+    Prepare a complete Technical Specification
+    for the following request:
+
+    {request}
+
+    The Analytics Team Lead is responsible for coordinating
+    the final specification and ensuring its quality.
+
+    Use the deliverables from:
+    - business_analysis_task
+    - system_analysis_task
+
+    REQUIRED ACTIVITIES:
+
+    1. Review all analytical results.
+    2. Check alignment between business and system requirements.
+    3. Identify gaps, contradictions, and ambiguities.
+    4. Delegate additional analysis when necessary.
+    5. Consolidate approved findings.
+    6. Ensure requirements are clear and testable.
+    7. Ensure implementation details are sufficiently specified.
+    8. Verify traceability between requirements and acceptance tests.
+    9. Produce the final Technical Specification.
+
+    REQUIRED DOCUMENT STRUCTURE:
+
+    1. Document Overview
+       - Purpose
+       - Background
+       - Business objectives
+
+    2. Scope
+       - In scope
+       - Out of scope
+       - Assumptions and dependencies
+
+    3. Stakeholders and Actors
+
+    4. Business Requirements
+
+    5. Functional Requirements
+       - Unique requirement IDs
+       - Descriptions
+       - Preconditions
+       - Main flows
+       - Alternative flows
+       - Postconditions
+
+    6. Business Rules
+
+    7. System Architecture and Interactions
+
+    8. API and Integration Requirements
+       - Endpoints and operations
+       - Request and response structures; encode each schema as a JSON string
+       - Integration flows
+       - Error handling
+
+    9. Data Requirements
+       - Entities and attributes
+       - Relationships
+       - Validation constraints
+
+    10. Non-Functional Requirements
+        - Security
+        - Performance
+        - Reliability
+        - Scalability
+        - Observability
+
+    11. Acceptance Criteria and Test Scenarios
+
+    12. Dependencies and Risks
+
+    13. Open Questions and Unresolved Decisions
+
+    14. Requirements Traceability
+
+    QUALITY REQUIREMENTS:
+
+    - Use precise technical language.
+    - Avoid vague and ambiguous statements.
+    - Assign unique IDs to requirements.
+    - Ensure every requirement is testable.
+    - Do not fabricate missing information.
+    - Explicitly mark unknown details as TBD.
+    - Clearly distinguish confirmed requirements
+      from proposed implementation decisions.
+    - Use tables and Mermaid diagrams where helpful.
+    - Do not present unresolved assumptions as confirmed facts.
+    - Return a single coherent technical document.
+
+    AUTONOMOUS SPECIFICATION RULES:
+    - Produce an implementation-ready specification, not just
+      a list of questions.
+    - Resolve non-critical ambiguities with explicit, practical
+      MVP assumptions; list them in assumptions.
+    - Put questions that can wait in open_questions.
+    - Reserve blocking_questions for critical blockers only.
+    - Select delivery_mode as prototype unless production is
+      explicitly required by the request.
+    - If no data source is specified, propose a replaceable
+      provider interface and clearly labeled demo data for a
+      prototype. Never claim demo data is real.
+    - For production mode, do not claim required integrations
+      are implemented without a verified source.
+    - Set status to ready when the agreed scope can be built
+      and tested without critical blockers.
+
+  expected_output: >
+    A complete, validated TechnicalSpecification object
+    containing all required information for implementation,
+    including delivery_mode, assumptions, open_questions,
+    and blocking_questions.

@@ -1,0 +1,240 @@
+backend_implementation_task:
+  guardrail_max_retries: 0
+  description: >
+    Implement backend functionality for the following
+    TechnicalSpecification:
+
+    {technical_spec}
+
+    The Development Lead must delegate backend
+    implementation to the Backend Developer.
+
+    REQUIRED ACTIVITIES:
+
+    1. Analyze functional and system requirements.
+    2. Identify backend responsibilities.
+    3. Define interfaces used by the frontend.
+    4. Inspect existing sandbox files.
+    5. Implement the required Python modules.
+    6. Implement business logic and processing rules.
+    7. Implement validation and error handling.
+    8. Implement required data handling.
+    9. Ensure Python 3.13 compatibility.
+    10. Perform basic developer smoke checks.
+    11. Report implemented requirements and limitations.
+
+    IMPLEMENTATION CONSTRAINTS:
+    - Work only inside the provided sandbox.
+    - Prefer backend.py for business logic.
+    - Do not overwrite unrelated files.
+    - Do not reset the sandbox.
+    - Never modify files outside the sandbox.
+    - Do not create external integrations unless required.
+    - Do not fabricate successful tool execution.
+    - Write actual executable code, not pseudocode.
+    - Ensure frontend-facing functions have clear interfaces.
+
+    DELIVERY MODE RULES:
+    - Follow delivery_mode in the TechnicalSpecification.
+    - In prototype mode, demo data is allowed only when it is
+      clearly labeled in the UI and documented in the handoff.
+      Keep the data provider replaceable.
+    - In production mode, do not substitute demo data for a
+      required live integration. Report a blocker if no verified
+      source or acceptable fallback is available.
+
+    Use the sandbox tools to create and inspect
+    the actual implementation.
+
+        DEVELOPMENT MODE:
+    {development_mode}
+
+    PREVIOUS QA FEEDBACK:
+    {qa_feedback}
+
+    RETRY RULES:
+    - If development_mode is "initial", implement
+      the application from the TechnicalSpecification.
+    - If development_mode is "fix", inspect the
+      existing implementation before making changes.
+    - Analyze all confirmed QA defects.
+    - Fix reported defects without introducing regressions.
+    - Preserve existing working functionality.
+    - Do not rewrite the entire application unnecessarily.
+    - Do not reset the sandbox.
+    - Report which defects have been fixed.
+    - Report any defects that remain unresolved.
+
+  expected_output: >
+    Actual backend implementation written to sandbox files.
+
+    A concise implementation report containing:
+    - Files created or modified
+    - Implemented requirement IDs
+    - Public functions available to frontend
+    - Basic verification performed
+    - Known issues
+    - Unresolved blockers
+
+frontend_implementation_task:
+  guardrail_max_retries: 0
+  description: >
+    Implement the Gradio user interface for:
+
+    {technical_spec}
+
+    Use the backend implementation task results
+    as context.
+
+    The Development Lead must delegate the
+    frontend implementation to Frontend Developer.
+
+    REQUIRED ACTIVITIES:
+
+    1. Analyze UI and interaction requirements.
+    2. Inspect backend implementation and interfaces.
+    3. Design the Gradio application structure.
+    4. Implement the required UI components.
+    5. Connect UI events to backend functions.
+    6. Implement user input validation.
+    7. Handle successful and failed operations.
+    8. Implement required UI state management.
+    9. Create app.py as the application entry point.
+    10. Perform basic import and integration checks.
+    11. Report implemented functionality and limitations.
+
+    APPLICATION REQUIREMENTS:
+    - Use Gradio as the UI framework.
+    - Prefer gr.Blocks for application composition.
+    - Separate UI logic from backend business logic.
+    - Expose the Gradio application as demo.
+    - Use a guarded main entry point for demo.launch().
+    - Keep all application files inside the sandbox.
+    - Never modify files outside the sandbox.
+    - Do not reset the sandbox.
+    - Do not introduce unsupported product functionality.
+    - Write actual executable code, not pseudocode.
+
+    Coordinate with Backend Developer through
+    the Development Lead when interfaces are unclear.
+        DEVELOPMENT MODE:
+    {development_mode}
+
+    PREVIOUS QA FEEDBACK:
+    {qa_feedback}
+
+    RETRY RULES:
+    - If development_mode is "initial", implement
+      the application from the TechnicalSpecification.
+    - If development_mode is "fix", inspect the
+      existing implementation before making changes.
+    - Analyze all confirmed QA defects.
+    - Fix reported defects without introducing regressions.
+    - Preserve existing working functionality.
+    - Do not rewrite the entire application unnecessarily.
+    - Do not reset the sandbox.
+    - Report which defects have been fixed.
+    - Report any defects that remain unresolved.
+
+  expected_output: >
+    Actual Gradio application implementation
+    written to sandbox files.
+
+    A concise implementation report containing:
+    - Files created or modified
+    - Implemented UI requirements
+    - Backend integration details
+    - Application entry point
+    - Basic verification performed
+    - Known issues and limitations
+
+development_handoff_task:
+  guardrail_max_retries: 0
+  description: >
+    Review and finalize the implementation for:
+
+    {technical_spec}
+
+    The Development Lead must coordinate
+    final integration and developer verification.
+
+    Use results from:
+    - backend_implementation_task
+    - frontend_implementation_task
+
+    REQUIRED ACTIVITIES:
+
+    1. Inspect all relevant sandbox files.
+    2. Review backend and frontend integration.
+    3. Compare implementation against the specification.
+    4. Identify missing requirements.
+    5. Identify code and integration problems.
+    6. Delegate necessary corrections.
+    7. Coordinate basic executable smoke checks.
+    8. Confirm that the expected entry point exists.
+    9. Document implemented requirement IDs.
+    10. Identify known issues and unresolved blockers.
+    11. Prepare the structured handoff to QA Crew.
+
+    VERIFICATION RULES:
+
+    - Verify actual files, not only developer reports.
+    - Use available sandbox tools for inspection.
+    - Execute non-interactive smoke checks where possible.
+    - Do not execute a long-running Gradio server
+      as a smoke check.
+    - Do not report checks as passed without evidence.
+    - Do not claim independent QA testing is complete.
+    - Do not reset or delete sandbox contents.
+
+    HANDOFF RULES:
+
+    - Set status to ready_for_qa only when implementation
+      is complete enough for independent QA testing.
+    - Set status to blocked when unresolved blockers
+      prevent meaningful QA testing.
+    - Report every known issue.
+    - Include the sandbox file names.
+    - Include the implemented requirement IDs.
+    - Include the exact application startup command.
+    - Record the results of developer smoke checks.
+    - Never conceal missing functionality or failures.
+    - Report completed actions and observed facts; do not return
+      a future-tense promise or a narrative about what you will do.
+    - Return exactly one valid JSON object matching the schema below.
+      Do not add prose, Markdown fences, or text before or after it.
+
+    REQUIRED JSON SHAPE:
+    {
+      "status": "ready_for_qa",
+      "implemented_requirement_ids": [],
+      "modified_files": [],
+      "entrypoint": "app.py",
+      "run_command": "uv run app.py",
+      "smoke_check_results": [],
+      "known_issues": [],
+      "blocking_questions": [],
+      "handoff_notes": "Summarize the verified implementation and limitations."
+    }
+
+    Use status "blocked" and provide blocking_questions when
+    unresolved issues prevent meaningful independent QA. Use
+    empty arrays only when there are no verified items to report.
+    DEVELOPMENT MODE:
+    {development_mode}
+
+    PREVIOUS QA FEEDBACK:
+    {qa_feedback}
+
+    If this is a fix iteration:
+    - Verify that reported defects were addressed.
+    - Review modified files.
+    - Perform basic developer smoke checks.
+    - Clearly identify unresolved QA defects.
+    - Prepare an updated DevelopmentHandoff.
+
+  expected_output: >
+    One valid JSON object conforming exactly to DevelopmentHandoff,
+    with status, implemented_requirement_ids, modified_files,
+    entrypoint, run_command, smoke_check_results, known_issues,
+    blocking_questions, and handoff_notes.

@@ -1,0 +1,211 @@
+functional_testing_task:
+  guardrail_max_retries: 0
+  description: >
+    Perform requirements-based functional verification.
+
+    TECHNICAL SPECIFICATION:
+    {technical_spec}
+
+    DEVELOPMENT HANDOFF:
+    {development_handoff}
+
+    The QA Lead must delegate functional analysis
+    to the Functional QA Engineer.
+
+    REQUIRED ACTIVITIES:
+
+    1. Review the TechnicalSpecification.
+    2. Review the DevelopmentHandoff.
+    3. Extract all functional requirements.
+    4. Analyze acceptance criteria.
+    5. Inspect relevant sandbox files.
+    6. Create test cases for each requirement.
+    7. Define positive scenarios.
+    8. Define negative scenarios.
+    9. Define boundary and exceptional scenarios.
+    10. Identify potentially missing functionality.
+    11. Identify gaps in testability and coverage.
+    12. Provide a testing plan for automation.
+
+    EACH TEST CASE MUST INCLUDE:
+    - Test case ID
+    - Related requirement ID
+    - Test description
+    - Preconditions
+    - Test inputs
+    - Expected result
+    - Verification method
+
+    IMPORTANT:
+    - Inspect actual implementation files.
+    - Do not modify application code.
+    - Do not reset the sandbox.
+    - Do not claim unexecuted tests have passed.
+    - Distinguish confirmed defects from suspected issues.
+    - Identify scenarios requiring unavailable tools.
+    - Check that implementation behavior matches the
+      TechnicalSpecification delivery_mode.
+    - In prototype mode, verify demo data is clearly labeled
+      and is not presented as real production data.
+
+  expected_output: >
+    A complete functional test plan containing:
+    - Requirement coverage matrix
+    - Numbered test cases
+    - Positive and negative scenarios
+    - Boundary and edge cases
+    - Expected results
+    - Suspected implementation gaps
+    - Untestable scenarios and reasons
+    - Recommendations for automation
+
+automated_testing_task:
+  guardrail_max_retries: 0
+  description: >
+    Implement and execute automated tests for the application.
+
+    TECHNICAL SPECIFICATION:
+    {technical_spec}
+
+    DEVELOPMENT HANDOFF:
+    {development_handoff}
+
+    Use the functional testing task results as context.
+
+    The QA Lead must delegate implementation and
+    execution of tests to the QA Automation Engineer.
+
+    REQUIRED ACTIVITIES:
+
+    1. Inspect sandbox files.
+    2. Inspect application entry points and Python modules.
+    3. Review functional test scenarios.
+    4. Identify testable backend functions.
+    5. Identify testable Gradio callbacks.
+    6. Create automated test cases.
+    7. Test valid inputs.
+    8. Test invalid inputs.
+    9. Test business rules.
+    10. Test exceptional conditions.
+    11. Test backend/frontend integration where possible.
+    12. Verify application module imports.
+    13. Execute the automated test suite.
+    14. Analyze actual execution results.
+    15. Document failures and defects.
+
+    EXECUTION INSTRUCTIONS:
+
+    - Prefer Python unittest.
+    - Create qa_tests.py inside the sandbox.
+    - Use Write Sandbox File to create test files.
+    - Use Run Sandbox Python File with qa_tests.py.
+    - Capture exit code, stdout, and stderr.
+    - Keep actual execution evidence.
+    - Do not launch the Gradio web server.
+    - Do not modify production source files.
+    - Do not reset or delete the sandbox.
+
+    DEFECT REPORTING:
+
+    For every confirmed defect provide:
+    - Defect ID
+    - Requirement ID when applicable
+    - Severity
+    - Description
+    - Steps to reproduce
+    - Expected behavior
+    - Actual behavior
+    - Relevant error output
+
+    Never mark a test as passed unless
+    its expected behavior was actually verified.
+
+  expected_output: >
+    Executable automated tests stored in the sandbox.
+
+    A detailed test execution report containing:
+    - Test files created
+    - Tests executed
+    - Requirement coverage
+    - Passed tests
+    - Failed tests
+    - Blocked and unexecuted tests
+    - Actual exit codes and output
+    - Confirmed defects
+    - Environment limitations
+
+qa_review_task:
+  guardrail_max_retries: 0
+  description: >
+    Perform final independent QA review.
+
+    TECHNICAL SPECIFICATION:
+    {technical_spec}
+
+    DEVELOPMENT HANDOFF:
+    {development_handoff}
+
+    Use results from:
+    - functional_testing_task
+    - automated_testing_task
+
+    The QA Lead must review and consolidate all results.
+
+    REQUIRED ACTIVITIES:
+
+    1. Review functional test coverage.
+    2. Review actual automation execution evidence.
+    3. Compare implementation with requirements.
+    4. Check acceptance criteria coverage.
+    5. Identify missing tests and requirements.
+    6. Validate reported defects.
+    7. Request additional testing when necessary.
+    8. Determine final QA status.
+    9. Prepare actionable feedback for Development Crew.
+    10. Produce a structured QAReport.
+
+    STATUS RULES:
+
+    Set status to "passed" only when:
+    - All required acceptance criteria are verified.
+    - Required tests have passed.
+    - No confirmed outstanding defects remain.
+    - No blocking questions remain.
+    - No required scenarios remain untested.
+
+    Set status to "failed" when:
+    - Confirmed implementation defects exist.
+    - Executed tests demonstrate incorrect behavior.
+    - Acceptance criteria are violated.
+
+    Set status to "blocked" when:
+    - Required tests cannot be executed.
+    - The test environment is unavailable.
+    - Missing information prevents verification.
+    - Required tooling is unavailable.
+
+    IMPORTANT:
+    - Do not invent test results.
+    - Do not mark skipped tests as passed.
+    - Include evidence for all reported results.
+    - Report unresolved coverage gaps.
+    - Do not modify application source code.
+    - Do not reset the sandbox.
+    - Return a single structured QAReport.
+
+    DELIVERY MODE REVIEW:
+    - Compare implementation claims with delivery_mode.
+    - Treat labeled demo data as prototype behavior only.
+    - Report any mock data presented as real production data.
+
+  expected_output: >
+    A validated QAReport containing:
+    - Overall QA status
+    - Delivery mode copied from the TechnicalSpecification
+    - Requirement coverage
+    - Individual test results
+    - Confirmed defects
+    - Unverified requirements
+    - Blocking issues
+    - Recommendations for developers
+    - Final QA summary
